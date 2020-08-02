@@ -12,7 +12,7 @@ const ROOM_NAME = "telemedicineAppointment";
 // Max. period that a Participant is allowed to be in a Room (currently 14400 seconds or 4 hours)
 const MAX_ALLOWED_SESSION_DURATION = 14400;
 
-const patientPath = path.join(__dirname, "./public/patient.html");
+const patientPath = path.join(__dirname, './public/patient.html');
 app.use("/patient", express.static(patientPath));
 
 const providerPath = path.join(__dirname, "./public/provider.html");
