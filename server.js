@@ -19,6 +19,7 @@ const MAX_ALLOWED_SESSION_DURATION = 14400;
 
 //const patientPath = path.join(__dirname, './public/patient.html');
 //app.use("/patient", express.static(patientPath));
+app.use('/public', express.static(__dirname + '/public'));
 
 app.get('/patient', function (req, res) {
   res.sendFile(__dirname + './public/patient.html');
