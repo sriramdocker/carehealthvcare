@@ -26,11 +26,13 @@ const providerPath = path.join(__dirname, "./public/provider.html");
 app.use("/provider", express.static(providerPath));
 */
 // serving up some fierce CSS lewks
-app.use('/public', express.static(__dirname + '/public'));
+
 
 app.use('/patient', express.static(__dirname + './public/patient.html'));
 
 app.use('/provider', express.static(__dirname + './public/patient.html'));
+
+app.use('/public', express.static(__dirname + '/public'));
 
 // suppress missing favicon warning
 app.get("/favicon.ico", (req, res) => res.status(204));
