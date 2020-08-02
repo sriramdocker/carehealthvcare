@@ -18,11 +18,11 @@ const ROOM_NAME = "telemedicineAppointment";
 const MAX_ALLOWED_SESSION_DURATION = 14400;
 
 app.get('/', function (req, res) {
-  res.sendFile(__dirname + '/index.html');
+  res.sendFile(__dirname + '/public/patient.html');
 });
 
-const patientPath = path.join(__dirname, '/public/patient.html');
-app.use("/patient", express.static(patientPath));
+//const patientPath = path.join(__dirname, '/public/patient.html');
+//app.use("/patient", express.static(patientPath));
 
 
 const providerPath = path.join(__dirname, "/public/provider.html");
