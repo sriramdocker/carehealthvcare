@@ -12,8 +12,6 @@ const ROOM_NAME = "telemedicineAppointment";
 // Max. period that a Participant is allowed to be in a Room (currently 14400 seconds or 4 hours)
 const MAX_ALLOWED_SESSION_DURATION = 14400;
 
-app.use(express.static(__dirname + "/public"));
-
 const patientPath = path.join(__dirname, './public/patient.html');
 app.use("/patient", express.static(patientPath));
 
@@ -21,7 +19,7 @@ const providerPath = path.join(__dirname, "./public/provider.html");
 app.use("/provider", express.static(providerPath));
 
 // serving up some fierce CSS lewks
-
+app.use(express.static(__dirname + "/public"));
 
 // suppress missing favicon warning
 app.get("/favicon.ico", (req, res) => res.status(204));
