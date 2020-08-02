@@ -22,7 +22,7 @@ app.use("/provider", express.static(providerPath));
 app.use(express.static(__dirname + "/public"));
 
 // suppress missing favicon warning
-app.get("/favicon.ico", (req, res) => res.status(204));
+//app.get("/favicon.ico", (req, res) => res.status(204));
 
 app.get("/token", function (request, response) {
   const identity = request.query.identity;
