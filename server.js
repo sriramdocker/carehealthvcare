@@ -1,8 +1,13 @@
 require("dotenv").config();
-const http = require("http");
-const express = require("express");
-const path = require("path");
-const app = express();
+var http = require("http");
+var express = require('express');
+var app = express();
+var bodyParser = require('body-parser');
+var urlencodedParser = bodyParser.urlencoded({ extended: true });
+const https = require('https');
+var request = require('request');
+var path = require('path');
+app.set("view engine", "ejs");
 
 const AccessToken = require("twilio").jwt.AccessToken;
 const VideoGrant = AccessToken.VideoGrant;
