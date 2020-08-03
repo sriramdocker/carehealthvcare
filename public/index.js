@@ -2,6 +2,7 @@ let room;
 
 const joinRoom = async (event, identity) => {
   const response = await fetch(`/token?identity=${identity}`);
+  console.log("Generating token");
   const jsonResponse = await response.json();
   const token = jsonResponse.token;
 
