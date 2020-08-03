@@ -36,6 +36,7 @@ app.use('/public', express.static(__dirname + '/public'));
 app.get("/favicon.ico", (req, res) => res.status(204));
 
 app.get("/token", function (request, response) {
+  console.log("Generating token");
   const identity = request.query.identity;
 
   // Create an access token which we will sign and return to the client,
