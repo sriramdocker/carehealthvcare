@@ -1,22 +1,100 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>CareMore CCP</title>
-    <style>
-        body {
-          background-color: #F5F9FF;
+<html>
+  <head>
+    <title>Patient Portal</title>
+    <link rel="stylesheet" href="/public/index.css" />
+  </head>
+  <body>
+    <h1><span style="text-align: left; color: #0000ff;"><img src="https://www.caremore.com/-/media/CMHealth/Images/caremore-logo.svg" alt="CM" width="217" height="31" />&nbsp;</span><span style="background-color: #ffffff; color: #000080;"><em><span style="text-align: left;">CareMore Telehealth Services</span></em></span></h1>
+  </body>
+  <button id="join-button">Request a Visit</button>
+  <button id="leave-button" class="hidden">Leave Room</button>
+  <div id="waiting-room" class="hidden">
+    <p>We've let your provider know you've arrived. They will be with you shortly.</p>
+    <p>In the meantime enjoy this soothing campfire.</p>
+    <iframe
+      width="640"
+      height="315"
+      src="https://www.youtube.com/embed/E77jmtut1Zc"
+      frameborder="0"
+      allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+      allowfullscreen
+    ></iframe>
+  </div>
+  <div id="local-media-container"></div>
+  <script src="/public/index.js"></script>
+  <script src="//media.twiliocdn.com/sdk/js/video/releases/2.3.0/twilio-video.min.js"></script>
+  <script>
+    const providerIdentity = "provider";
+
+    async function onJoinButtonClick(event) {
+      await joinRoom(event, "patient");
+
+      // is there a doctor in the house??
+      // if not, show the waiting room
+      if (!isProviderPresent(room.participants)) {
+        showWaitingRoom();
+      }
+
+      // if the provider joins, hide the waiting room
+      room.on("participantConnected", (participant) => {
+        if (participant.identity === providerIdentity) {
+          hideWaitingRoom();
         }
-        </style>
-</head>
-<body>
-    <h1><span style="text-align: left; color: #0000ff;"><img src="https://www.caremore.com/-/media/CMHealth/Images/caremore-logo.svg" alt="CM" width="217" height="31" />&nbsp;</span><span style="background-color: #ffffff; color: #000080;"><em><span style="text-decoration: underline;"><span style="text-align: left;"><strong>Members Outreach Connect with CareMore CCP </strong></span></span></em></span></h1>
-    <form accept-charset="UTF-8" action="/thank" method="post" name='form1'><fieldset><legend><h3>Initiate an Outbound Call Here</h3></legend> 
-        
-        <h3>Place the excel with member names and phone number in the path: C:\Users\js-sample and click Submit to call them</h3><button type="submit" value="submit" type="image" src="https://raw.githubusercontent.com/mdn/learning-area/master/html/forms/image-type-example/login.png" alt="submit" width="200">Submit</button></fieldset></form>
-    
-    
-</body>
+      });
+
+      // hide the waiting room if the patient disconnects
+      room.on("disconnected", () => {
+        hideWaitingRoom();
+      });
+
+      event.preventDefault();
+    }
+
+    const isProviderPresent = (participantMap) => {
+      for (const participant of participantMap.values()) {
+        if (participant.identity === providerIdentity) {
+          return true;
+        }
+      }
+      return false;
+    };
+
+    const hideWaitingRoom = () => {
+      const waitingRoom = document.getElementById("waiting-room");
+      // check that the waiting room is visible, before hiding
+      // just to avoid weird state bugs
+      if (!waitingRoom.classList.contains("hidden")) {
+        waitingRoom.classList.toggle("hidden");
+        stopWaitingRoomVideo();
+      }
+    };
+
+    const showWaitingRoom = () => {
+      const waitingRoom = document.getElementById("waiting-room");
+      // check that the waiting room is hidden, before showing
+      // just to avoid weird state bugs
+      if (waitingRoom.classList.contains("hidden")) {
+        waitingRoom.classList.toggle("hidden");
+      }
+    };
+
+    const stopWaitingRoomVideo = () => {
+      const iframe = document.querySelector("iframe");
+      const video = document.querySelector("video");
+      if (iframe !== null) {
+        const iframeSrc = iframe.src;
+        iframe.src = iframeSrc;
+      }
+      if (video !== null) {
+        video.pause();
+      }
+    };
+
+    const button = document.getElementById("join-button");
+    button.addEventListener("click", onJoinButtonClick);
+
+    const leaveButton = document.getElementById("leave-button");
+    leaveButton.addEventListener("click", onLeaveButtonClick);
+  </script>
 </html>
