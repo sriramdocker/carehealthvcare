@@ -35,9 +35,8 @@ app.use('/public', express.static(__dirname + '/public'));
 // suppress missing favicon warning
 app.get("/favicon.ico", (req, res) => res.status(204));
 
-app.get("/token", function (request, response) {
-  console.log("Generating token from serverjs");
-  const identity = request.query.identity;
+app.get("/token", function (req, res) {
+  const identity = req.query.identity;
 
   // Create an access token which we will sign and return to the client,
   // containing the grant we just created.
@@ -57,7 +56,7 @@ app.get("/token", function (request, response) {
   token.addGrant(grant);
 
   // Serialize the token to a JWT string and include it in a JSON response.
-  response.send({
+  res.send({
     identity: identity,
     token: token.toJwt(),
   });
