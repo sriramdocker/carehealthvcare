@@ -21,7 +21,7 @@ app.get('/', function (req, res) {
   res.sendFile(__dirname + '/public/patient.html');
 });
 
-//const patientPath = path.join(__dirname, '/public/index.html');
+//const patientPath = path.join(__dirname, '/public/patient.html');
 //app.use("/patient", express.static(patientPath));
 
 
